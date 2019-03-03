@@ -84,13 +84,13 @@ namespace QDPJCustomerInfo
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
             cloned.Address = this.cboAddress.SelectedItem as Address;
-            if (this.Title.StartsWith("编辑"))
+            if (this.Title.StartsWith("新增"))
             {
-                await App.customerInfoManager.UpdateCustomerInfo(cloned);
+                await App.customerInfoManager.AddCustomerInfo(cloned);
             }
             else
             {
-                await App.customerInfoManager.AddCustomerInfo(cloned);
+                await App.customerInfoManager.UpdateCustomerInfo(cloned);
             }
             
             MessageBox.Show("保存成功!","提示",MessageBoxButton.OK,MessageBoxImage.Information);
