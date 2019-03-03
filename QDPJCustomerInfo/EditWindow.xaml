@@ -1,0 +1,256 @@
+﻿<Window x:Class="QDPJCustomerInfo.EditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QDPJCustomerInfo"
+        mc:Ignorable="d"
+        Title="EditWindow" Height="250" Width="300"
+        WindowStyle="None" BorderBrush="#7CCD7C" BorderThickness="1" AllowsTransparency="True" 
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="False" Loaded="Window_Loaded">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="10 0 0 0"/>
+            <Setter Property="Foreground" Value="#fff"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bd" BorderBrush="#7CCD7C" BorderThickness="1" Background="#7CCD7C" CornerRadius="3">
+                            <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="bd" Value="#43CD80"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#43CD80"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Width" Value="179"/>
+        </Style>
+        <Style TargetType="ToggleButton" x:Key="stlToggleButton">
+
+            <Setter Property="Foreground" Value="White"></Setter>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate>
+
+                        <Border x:Name="Back" Background="#F7FDF7" BorderThickness="1" BorderBrush="Transparent">
+
+                            <Path Name="PathFill" Fill="#59CA4F" Width="8" Height="6" StrokeThickness="0" Data="M5,0 L10,10 L0,10 z" RenderTransformOrigin="0.5,0.5" Stretch="Fill">
+
+                                <Path.RenderTransform>
+
+                                    <TransformGroup>
+
+                                        <ScaleTransform/>
+
+                                        <SkewTransform/>
+
+                                        <RotateTransform Angle="180"/>
+
+                                        <TranslateTransform/>
+
+                                    </TransformGroup>
+
+                                </Path.RenderTransform>
+
+                            </Path>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+
+                                <Setter TargetName="PathFill" Property="Fill" Value="White"></Setter>
+
+                                <Setter TargetName="Back" Property="Background" Value="#59CA4F"></Setter>
+
+                                <Setter TargetName="Back" Property="BorderBrush" Value="#59CA4F"></Setter>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+        <Style TargetType="ComboBox" >
+
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+
+            <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+
+            <Setter Property="Foreground" Value="Black"></Setter>
+
+            <Setter Property="Height" Value="30"></Setter>
+
+            <Setter Property="Margin" Value="0,0,0,0"></Setter>
+
+            <Setter Property="SelectedIndex" Value="0"/>
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="ComboBox">
+
+                        <Grid Background="#F7FDF7">
+
+                            <Grid.ColumnDefinitions>
+
+                                <ColumnDefinition Width="0.7*"/>
+
+                                <ColumnDefinition Width="0.3*" MaxWidth="30"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <Label  Grid.Column="0" Content="{TemplateBinding Text}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+
+                            <Border  Grid.Column="0" BorderThickness="1,1,0,1" BorderBrush="#81D779" CornerRadius="1,0,0,1">
+                            </Border>
+
+                            <Border Grid.Column="1" BorderThickness="0,1,1,1" BorderBrush="#81D779" CornerRadius="0,1,1,0">
+
+                                <ToggleButton Style="{StaticResource stlToggleButton}" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press"></ToggleButton>
+
+                            </Border>
+
+                            <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" x:Name="Popup" Focusable="False" AllowsTransparency="True" PopupAnimation="Slide">
+
+                                <Border CornerRadius="1" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{TemplateBinding ActualWidth}" x:Name="DropDown" SnapsToDevicePixels="True">
+
+                                    <Border.Effect>
+
+                                        <DropShadowEffect Color="Black" BlurRadius="2" ShadowDepth="0" Opacity="0.5"/>
+
+                                    </Border.Effect>
+
+                                    <ScrollViewer Style="{DynamicResource ScrollViewerStyle}" MaxHeight="{TemplateBinding MaxDropDownHeight}" SnapsToDevicePixels="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" CanContentScroll="True">
+
+                                        <!-- StackPanel 用于显示子级，方法是将 IsItemsHost 设置为 True -->
+
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" Background="White"/>
+
+                                    </ScrollViewer>
+
+                                </Border>
+
+                            </Popup>
+
+                        </Grid>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Grid Background="{TemplateBinding Background}" Margin="0,0.5">
+                            <Border x:Name="ItemBackground" IsHitTestVisible="False" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"
+                                Background="{TemplateBinding Background}" />
+                            <ContentPresenter x:Name="contentPresenter" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <!--<Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemBackground" Property="Background" Value="#7CCD7C" />
+                            </Trigger>-->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ItemBackground" Property="Background" Value="#7CCD7C" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.ColumnSpan="3" Orientation="Horizontal" Background="#7CCD7C">
+            <Label x:Name="lblTitle" Width="260" Content="编辑" FontSize="20" Foreground="#fff" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Button x:Name="btnExit" Content="×" FontSize="20" Foreground="#fff" HorizontalContentAlignment="Center" Click="btnExit_Click" >
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border x:Name="bd" Width="30" Height="30" Background="Transparent">
+                                        <TextBlock x:Name="tb" Text="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" TargetName="bd" Value="#fff"/>
+                                            <Setter Property="Foreground" TargetName="tb" Value="#7CCD7C"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
+        <TextBlock Grid.Row="1" Text="终端编码:" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 10 0"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Path=CustCode}"/>
+
+        <TextBlock Grid.Row="2" Text="终端名称:" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 10 0"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Path=CustName}"/>
+
+        <TextBlock Grid.Row="3" Text="联系人:" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 10 0"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Path=Linkman}"/>
+
+        <TextBlock Grid.Row="4" Text="联系电话:" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 10 0"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Path=PhoneNum}" />
+
+        <TextBlock Grid.Row="5" Text="地址:" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 10 0"/>
+        <ComboBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Margin="5" x:Name="cboAddress" Width="100" Height="30" HorizontalAlignment="Left" DisplayMemberPath="AddressInfo" SelectedValuePath="Id"/>
+        <Button x:Name="btnSave" Content="保存" Grid.Row="6" Grid.ColumnSpan="3" Margin="30 5" Click="btnSave_Click"/>
+    </Grid>
+</Window>
